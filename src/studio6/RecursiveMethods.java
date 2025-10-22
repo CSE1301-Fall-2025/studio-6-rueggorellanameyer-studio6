@@ -14,10 +14,13 @@ public class RecursiveMethods {
 	public static double geometricSum(int n) {
 		
 			// FIXME compute the geometric sum for the first n terms recursively
+			if ( n == 0) {
 			return 0;
-		
+			}
+			else {
+				return geometricSum(n) + (geometricSum(n) * Math.pow(0.5, n-1));
 	}
-
+}
 	
 	/**
 	 * @param xCenter                       x-coordinate of the center of the circle
@@ -28,8 +31,28 @@ public class RecursiveMethods {
 	 *                                      depth
 	 * @param radiusMinimumDrawingThreshold radius above which drawing should occur
 	 */
+
 	public static void circlesUponCircles(double xCenter, double yCenter, double radius, double radiusMinimumDrawingThreshold) {
-		
+		double bound = 2.0;
+		StdDraw.setXscale(-bound, bound);
+		StdDraw.setYscale(-bound, bound);
+
+		if ( radius <= radiusMinimumDrawingThreshold) {
+			return;
+		}	else { 
+				
+					StdDraw.clear();
+					StdDraw.setPenColor(0, 0,0);
+					StdDraw.circle(xCenter, yCenter, radius); 
+					StdDraw.circle(xCenter-radius,yCenter, radius/3);
+					StdDraw.circle(xCenter,yCenter-radius,radius/3);
+					StdDraw.circle(xCenter+radius,yCenter, radius/3);
+					StdDraw.circle(xCenter,yCenter+radius,radius/3); 
+					// create 4 std.draw methods that draw each circle (increment position based on the radius 
+					circlesUponCircles(xCenter,yCenter,radius/3,radiusMinimumDrawingThreshold);
+					// call circles upon circles (x center, ycenter, radius/3, minthreshold)
+		}
+
 		// FIXME complete the recursive drawing
 	}
 	
@@ -63,4 +86,7 @@ public class RecursiveMethods {
 	}
 
 
+public static void main(String args[]) {
+	RecursiveMethods.circlesUponCircles(0.0, 0.0, 1.1, 1/3);
+}
 }
